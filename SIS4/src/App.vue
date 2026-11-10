@@ -1,47 +1,34 @@
 <script setup>
-import HelloWorld from './components/HelloWorld.vue'
-import TheWelcome from './components/TheWelcome.vue'
+import { computed } from 'vue'
+import { useRoute, useRouter } from 'vue-router'
+
+const route = useRoute()
+const router = useRouter()
+const selected = computed(() => [route.path])
 </script>
 
 <template>
-  <header>
-    <img alt="Vue logo" class="logo" src="./assets/logo.svg" width="125" height="125" />
+  <a-layout style="min-height: 100vh">
+    <a-layout-sider breakpoint="lg" collapsed-width="0">
+      <div style="color: #fff; font-size: 18px; text-align: center; padding: 16px">
+        Student Dashboard
+      </div>
+      <a-menu
+        theme="dark"
+        mode="inline"
+        :selected-keys="selected"
+        @click="({ key }) => router.push(key)"
+      >
+        <a-menu-item key="/">Dashboard</a-menu-item>
+        <a-menu-item key="/students">Students</a-menu-item>
+        <a-menu-item key="/tasks">Tasks</a-menu-item>
+      </a-menu>
+    </a-layout-sider>
 
-    <div class="wrapper">
-      <HelloWorld msg="You did it!" />
-    </div>
-  </header>
-
-  <main>
-    <TheWelcome />
-  </main>
+    <a-layout>
+      <a-layout-content style="margin: 24px">
+        <router-view />
+      </a-layout-content>
+    </a-layout>
+  </a-layout>
 </template>
-
-<style scoped>
-header {
-  line-height: 1.5;
-}
-
-.logo {
-  display: block;
-  margin: 0 auto 2rem;
-}
-
-@media (min-width: 1024px) {
-  header {
-    display: flex;
-    place-items: center;
-    padding-right: calc(var(--section-gap) / 2);
-  }
-
-  .logo {
-    margin: 0 2rem 0 0;
-  }
-
-  header .wrapper {
-    display: flex;
-    place-items: flex-start;
-    flex-wrap: wrap;
-  }
-}
-</style>
